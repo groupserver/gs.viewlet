@@ -1,6 +1,11 @@
 # coding=utf-8
 from zope.component import getAdapters
-from zope.contentprovider.interfaces import BeforeUpdateEvent
+try:
+    from zope.contentprovider.interfaces import BeforeUpdateEvent
+except ImportError, e:
+    zope213 = False
+else:
+    zope213 = True    
 from zope.event import notify
 from zope.location.interfaces import ILocation
 from zope.viewlet import interfaces
@@ -39,7 +44,8 @@ class aWeightOrderedViewletManager(ViewletManagerBase):
             self.viewlets.append(viewlet)
             # --=mpj17=-- Don't call _updateViewlets, because it does
             #       not exist in Zope 2.10
-            notify(BeforeUpdateEvent(viewlet, self.request))
+            if zope213:
+                notify(BeforeUpdateEvent(viewlet, self.request))
             viewlet.update()
 
 WeightOrderedViewletManager = aWeightOrderedViewletManager
