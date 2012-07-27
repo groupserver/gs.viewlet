@@ -20,7 +20,7 @@ class aWeightOrderedViewletManager(ViewletManagerBase):
         # doesn't have one
         for viewlet in allowed:
             try:
-                if viewlet.show:
+                if viewlet[1].show:
                     retval.append(viewlet)
             except AttributeError:
                 retval.append(viewlet)
