@@ -13,14 +13,19 @@ from Products.Five.viewlet.manager import ViewletManagerBase
 
 class aWeightOrderedViewletManager(ViewletManagerBase):
     def filter_out_no_shows(self, viewlets):
-        # --=mpj17=-- The reason I do not call
-        # viewlets = super(ViewletManagerBase, self).filter(viewlets)
-        # is I get a "ForbiddenAttribute: ('render'" when I try. I can
-        # call the "filter" method from the parent class, but not using 
-        # "super."
-        viewlets = [v for v in self.filter(viewlets) 
-                    if getattr(v[1], 'show', True)]
-        return viewlets
+        # filter for permission
+        allowed = [v for v in self.filter(viewlets)]
+        retval = []
+        # we show a viewlet if the show attribute allows us, or if it
+        # doesn't have one
+        for viewlet in allowed:
+            try:
+                if viewlet.show:
+                    retval.append(viewlet)
+            except AttributeError:
+                retval.append(viewlet)
+        
+        return retval
 
     def update(self):
         """See zope.contentprovider.interfaces.IContentProvider"""
