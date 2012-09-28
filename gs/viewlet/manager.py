@@ -5,11 +5,12 @@ try:
 except ImportError, e:
     zope213 = False
 else:
-    zope213 = True    
+    zope213 = True
 from zope.event import notify
 from zope.location.interfaces import ILocation
 from zope.viewlet import interfaces
 from Products.Five.viewlet.manager import ViewletManagerBase
+
 
 class aWeightOrderedViewletManager(ViewletManagerBase):
     def filter_out_no_shows(self, viewlets):
@@ -24,7 +25,6 @@ class aWeightOrderedViewletManager(ViewletManagerBase):
                     retval.append(viewlet)
             except AttributeError:
                 retval.append(viewlet)
-        
         return retval
 
     def update(self):
@@ -36,13 +36,13 @@ class aWeightOrderedViewletManager(ViewletManagerBase):
             (self.context, self.request, self.__parent__, self),
             interfaces.IViewlet)
         viewlets = self.filter_out_no_shows(viewlets)
-        
-        # --=mpj17=-- This is the main change to the standard viewlet 
+
+        # --=mpj17=-- This is the main change to the standard viewlet
         #       manager: the viewlets are sorted according to the
         #       "weight" attribute
         viewlets.sort(key=lambda v: int(v[1].weight))
 
-        self.viewlets=[]
+        self.viewlets = []
         for name, viewlet in viewlets:
             if ILocation.providedBy(viewlet):
                 viewlet.__name__ = name
@@ -54,4 +54,3 @@ class aWeightOrderedViewletManager(ViewletManagerBase):
             viewlet.update()
 
 WeightOrderedViewletManager = aWeightOrderedViewletManager
-

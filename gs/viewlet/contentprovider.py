@@ -1,7 +1,7 @@
 # coding=utf-8
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
-from AccessControl import getSecurityManager
+
 
 class SiteContentProvider(object):
     def __init__(self, context, request, view):
@@ -19,4 +19,3 @@ class SiteContentProvider(object):
     def loggedInUser(self):
         retval = createObject('groupserver.LoggedInUser', self.context)
         return retval
-
