@@ -32,6 +32,14 @@ setup(name='gs.viewlet',
     zip_safe=True,
     install_requires=[
         'setuptools',
+        'zope.cachedescriptors',
+        'zope.component',
+        'zope.contentprovider',
+        'zope.event',
+        'zope.location',
+        'zope.viewlet',
+        'Products.GSContent',  # For the site info
+        'Products.CustomUserFolder',  # For the logged in user
         # -*- Extra requirements: -*-
     ],
     entry_points="""
