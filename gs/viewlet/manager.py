@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from zope.component import getAdapters
 try:
     from zope.contentprovider.interfaces import BeforeUpdateEvent
